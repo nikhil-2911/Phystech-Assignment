@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 function Copyright(props) {
   return (
     <Typography
@@ -34,7 +36,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Login = () => {
+  const auth = getAuth();
   const navigate = useNavigate();
+  const provider = new GoogleAuthProvider();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -50,6 +54,20 @@ const Login = () => {
 
       navigate("/");
     }
+  };
+  const handleGoogleSignIn = async () => {
+    await signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        alert("User Signed In Failure");
+        console.log("Error while google signin", error.message);
+      });
+    navigate("/");
   };
   return (
     <ThemeProvider theme={theme}>
@@ -101,6 +119,14 @@ const Login = () => {
               sx={{ mt: 3, mb: 2 }}
             >
               Login
+            </Button>
+            <Button
+              onClick={handleGoogleSignIn}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              SignIn With Gmail
             </Button>
           </Box>
         </Box>

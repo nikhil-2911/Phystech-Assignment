@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import "./firebase";
 
 // Components
 import Home from "./component/Home";
