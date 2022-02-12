@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const URL = "http://localhost:5000";
+// const URL = "http://localhost:5000";
+const URL = "https://mern-project-backend1.herokuapp.com";
 
 export const saveUser = async (user) => {
   try {
